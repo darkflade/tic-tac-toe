@@ -1,6 +1,8 @@
 
 {
     "name": "darkflade/tic-tac-toe",
+    "description": "game",
+    "type": "project",
     "bin": [
         "bin/tic-tac-toe"
     ],
