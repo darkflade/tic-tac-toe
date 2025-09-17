@@ -3,7 +3,7 @@
 <?php
 
 $autoloadLocal = __DIR__ . '/../vendor/autoload.php';
-$autoloadGlobal = getenv('COMPOSER_HOME') . '/vendor/autoload.php';
+$autoloadGlobal = __DIR__ . '/../../../autoload.php';
 
 if (file_exists($autoloadLocal)) {
     require $autoloadLocal;
@@ -11,9 +11,12 @@ if (file_exists($autoloadLocal)) {
     require $autoloadGlobal;
 } else {
     echo 
-    "Не найден autoload \n" .
-    "При локальной установке попробуйте composer install\n" .
-    "При глобальной composer install global\n";
+    "\033[31m   Не найден autoload \n" .
+    "\033[34m При локальной установке попробуйте: \n" .
+    "\033[32m   1   composer install\n\n" .
+    "\033[34m При глобальной установке: \n" .
+    "\033[32m   1   composer global require wp-cli/wp-cli\n" .
+    "\033[32m   2   composer global dump-autoload -o \033[0m\n";
     exit(1);
 }
 
