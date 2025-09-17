@@ -1,0 +1,16 @@
+
+{
+    "name": "darkflade/tic-tac-toe",
+    "bin": [
+        "bin/tic-tac-toe"
+    ],
+    "require": {
+        "wp-cli/php-cli-tools": "^0.12.6"
+    },
+    "autoload": {
+        "files": [
+            "src/Controller.php",
+            "src/View.php"
+        ] 
+    }
+}
