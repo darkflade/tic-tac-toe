@@ -48,11 +48,34 @@ composer dump-autoload -o
 php bin/tic-tac-toe
 ```
 5. Возможен запуск напрямую через Packagist:
+ * Локально c директорию
 ```bash
-composer global require darkflade/tic-tac-toe
-tic-tac-toe
+composer composer create-project darkflade/tic-tac-toe
 ```
+ * Глобально в путь composer
+```bash
+composer global require wp-cli/wp-cli
+composer global dump-autoload -o
+```
+
+## Игровой процесс
+Перед началом партии необходимо выбрать размер игрового поля (от 3 до 10). Игра ведётся крестиками и ноликами: первый ход выполняет игрок, выбранный случайным образом, и ему присваиваются крестики, второму — нолики.
+
+Координаты ячеек вводятся через пробел в формате:
+
+<номер строки> <номер столбца>
+
+Нумерация начинается с 1. Пример ввода для верхнего левого угла поля:
+
+1 1
+
+Если ввод некорректен (например, пробелы лишние, символ не число или ячейка уже занята), программа попросит ввести координаты заново.
+
 
 ## Используемые библиотеки
 
 wp-cli/php-cli-tools
+
+## Ссылка на packagit
+
+https://packagist.org/packages/darkflade/tic-tac-toe

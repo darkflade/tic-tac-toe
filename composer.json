@@ -10,9 +10,11 @@
         "wp-cli/php-cli-tools": "^0.12.6"
     },
     "autoload": {
+        "psr-4": {
+            "Darkflade\\TicTacToe\\": "src/"
+        },
         "files": [
-            "src/Controller.php",
-            "src/View.php"
-        ] 
+            "src/Controller.php"
+        ]
     }
 }

@@ -20,6 +20,28 @@ if (file_exists($autoloadLocal)) {
     exit(1);
 }
 
-use function Darkflade\Tic_tac_toe\Controller\startGame;
+$options = getopt("nlr:h", ["new","list","replay:","help"]);
+
+if (isset($options['h']) || isset($options['help'])) {
+    echo "Tic-Tac-Toe CLI\n";
+    echo "Доступные ключи:\n";
+    echo "  -n, --new      Новая игра (по умолчанию)\n";
+    echo "  -l, --list     Список сохраненных игр (в разработке)\n";
+    echo "  -r id, --replay=id  Повтор игры с идентификатором id (в разработке)\n";
+    echo "  -h, --help     Эта справка\n";
+    exit(0);
+}
+
+if (isset($options['l']) || isset($options['list'])) {
+    echo "Список сохраненных игр — В разработке\n";
+    exit(0);
+}
+
+if (isset($options['r']) || isset($options['replay'])) {
+    echo "Повтор игры с id=" . ($options['r'] ?? $options['replay']) . " — В разработке\n";
+    exit(0);
+}
+
+use function Darkflade\TicTacToe\Controller\startGame;
 
 startGame();
