@@ -16,7 +16,6 @@ class Computer
         $this->N = $board->N;
     }
 
-    // public wrapper: возвращает [x,y]
     public function chooseMove(Board $board, int $depth = 3): array
     {
         $this->N = $board->N;
@@ -24,7 +23,6 @@ class Computer
         $bestScore = PHP_INT_MIN;
         $cells = $board->getEmptyAdjacentCells();
 
-        // если мало кандидатов, можно расширить: все пустые
         if (count($cells) < 1) {
             for ($i = 0; $i < $this->N; $i++) {
                 for ($j = 0; $j < $this->N; $j++) {
@@ -37,11 +35,10 @@ class Computer
 
         foreach ($cells as $c) {
             [$x,$y] = $c;
-            // симулируем ход компьютера
             $board->set($x, $y, $board->computerSymbol);
             if ($board->winAt($x, $y, $this->M)) {
                 $board->set($x, $y, '.');
-                return [$x,$y]; // сразу выигрышный ход
+                return [$x,$y];
             }
             $score = $this->minimaxAlphaBeta($board, $depth - 1, false, PHP_INT_MIN, PHP_INT_MAX);
             $board->set($x, $y, '.');
@@ -53,7 +50,6 @@ class Computer
         }
 
         if ($best[0] === -1) {
-            // на крайний случай первый попавшийся
             for ($i = 0; $i < $this->N; $i++) {
                 for ($j = 0; $j < $this->N; $j++) {
                     if ($board->isEmpty($i, $j)) {
@@ -74,9 +70,6 @@ class Computer
             return $this->memo[$hash];
         }
 
-        // проверка терминальных состояний
-        // можно ускорить — проверить последнее поставленный символ, но для простоты проверяем все
-        // победа для компьютера?
         for ($i = 0; $i < $this->N; $i++) {
             for ($j = 0; $j < $this->N; $j++) {
                 if ($board->get($i, $j) !== '.' && $board->winAt($i, $j, $this->M)) {
@@ -97,7 +90,7 @@ class Computer
         }
 
         $cells = $board->getEmptyAdjacentCells();
-        if (empty($cells)) { // fallback: все пустые
+        if (empty($cells)) {
             for ($i = 0; $i < $this->N; $i++) {
                 for ($j = 0; $j < $this->N; $j++) {
                     if ($board->isEmpty($i, $j)) {
@@ -121,7 +114,7 @@ class Computer
                     $alpha = $value;
                 }
                 if ($alpha >= $beta) {
-                    break; // prune
+                    break;
                 }
             }
             $this->memo[$hash] = $value;
@@ -140,7 +133,7 @@ class Computer
                     $beta = $value;
                 }
                 if ($alpha >= $beta) {
-                    break; // prune
+                    break;
                 }
             }
             $this->memo[$hash] = $value;
@@ -148,9 +141,6 @@ class Computer
         }
     }
 
-    // очень простая эвристика: считаем паттерны длины k (1..M-1)
-    // Возвращаем положительное для позиции в пользу компьютера, отрицательное — в пользу игрока.
-    // в классе Computer
     private function evaluate(Board $board): int
     {
         $M = $this->M;
@@ -158,8 +148,6 @@ class Computer
         $comp = $board->computerSymbol;
         $pl = $board->playerSymbol;
 
-        // counters: counts[player|comp][len][type]
-        // type: 2 = open (both ends free), 1 = semi-open (one end free), 0 = closed (no ends)
         $countsComp = array_fill(0, $M + 1, array_fill(0, 3, 0));
         $countsPl = array_fill(0, $M + 1, array_fill(0, 3, 0));
 
@@ -172,15 +160,12 @@ class Computer
                     continue;
                 }
                 foreach ($dirs as $d) {
-                    // only count segment starting at (i,j) in this direction once:
-                    // ensure the previous cell in -d is different or out of bounds
                     $px = $i - $d[0];
                     $py = $j - $d[1];
                     if ($px >= 0 && $py >= 0 && $px < $N && $py < $N && $board->get($px, $py) === $c) {
                         continue;
                     }
 
-                    // walk along direction to count same symbols
                     $len = 0;
                     $x = $i;
                     $y = $j;

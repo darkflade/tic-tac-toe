@@ -35,19 +35,34 @@
  cd tic-tac-toe
  ```
 
-2. Установить зависимости:
+2. Включить поддержку sqlite3 драйвера.
+В директории с php должен быть файл php.ini в нем надо раскоментировать две строки, убрать ; в начале строки
+Будет:
+```bash
+;extension=pdo_sqlite
+...
+;extension=sqlite3
+```
+Должно быть
+```bash
+extension=pdo_sqlite
+...
+extension=sqlite3
+```
+
+3. Установить зависимости:
 ```bash
 composer install
 ```
-3. Сгенерировать автозагрузку:
+4. Сгенерировать автозагрузку:
 ```bash
 composer dump-autoload -o
 ```
-4. Запустить игру:
+5. Запустить игру:
 ```bash
 php bin/tic-tac-toe
 ```
-5. Возможен запуск напрямую через Packagist:
+6. Возможен запуск напрямую через Packagist:
  * Локально c директорию
 ```bash
 composer composer create-project darkflade/tic-tac-toe
